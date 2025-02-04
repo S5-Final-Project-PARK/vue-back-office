@@ -6,26 +6,42 @@ import MyFullButton from '@/components/MyFullButton.vue';
 
 const email = ref('');
 const password = ref('');
+const loginCheck = ref(true);
 
-const login = () => {
-    console.log('Logging in with:', email.value, password.value);
-};
+function handleSubmit() {
+    const emailCheck = "pyvas17@gmail.com";
+    const passwordCheck = "root";
+
+    if (email.value === emailCheck && password.value === passwordCheck) {
+        loginCheck.value = true; // ✅ Reset the error message
+        console.log("✅ Login successful");
+    } else {
+        loginCheck.value = false; // ❌ Show error message
+    }
+}
 </script>
 
 <template>
-    <body class="min-h-screen bg-(--my-pure-white) font-nacelle">
+    <body class="min-h-screen bg-[--my-pure-white] font-nacelle">
         <div class="pt-32">
             <MyLoginHeader />
             <main class="flex items-center justify-center space-y-6 rounded-lg">
-                <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 box-shadow-">
+                <article class="container bg-[--my-white] rounded-xl px-4 py-8 w-2/5 box-shadow-">
                     <div class="flex flex-col space-y-8">
-                        <section class="flex flex-col space-y-2">
+                        <section class="flex flex-col space-y-4">
                             <MyInput type="email" label="Your Email" placeholder="JohnDoe@gmail.com" id="email"
                                 v-model="email" />
                             <MyInput type="password" label="Password" placeholder="Password" id="password"
                                 v-model="password" />
                         </section>
-                        <MyFullButton @click="login" label="Log In" />
+
+                        <!-- ✅ Fixed v-if syntax -->
+                        <p v-if="!loginCheck" class="text-red-800 text-sm">
+                            ❌ Wrong email OR password. Please try again.
+                        </p>
+
+                        <!-- ✅ Prevent default form submission -->
+                        <MyFullButton @click="handleSubmit" label="Log In" />
                     </div>
                 </article>
             </main>
