@@ -2,16 +2,11 @@
 
 @theme {
     --font-nacelle: Nacelle;
-    --my-white: #f3f3f3;
+    --font-montserrat: Montserrat;
+    --my-white: #fafaed;
+    --my-pure-white: #f3f3f3;
     --my-black: #141414;
-    --my-primary: #ff86d7;
-}
-
-@font-face {
-    font-family: 'Nacelle';
-    src: url('/restaurant-admin/src/assets/fonts/nacelle/Nacelle-Regular.woff2') format('woff2'),
-         url('/restaurant-admin/src/assets/fonts/nacelle/Nacelle-Regular.woff') format('woff');
-    font-weight: 400; /* Regular */
-    font-style: normal;
-    font-display: swap; /* Recommended for performance */
+    --my-primary: #d36135;
+    --my-primary-darker:#a24936;
+    --my-secondary:#83bca9;
 }
