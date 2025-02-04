@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'; // ✅ Import useRouter
 import MyLoginHeader from '@/components/MyLoginHeader.vue';
 import MyInput from '@/components/MyInput.vue';
 import MyFullButton from '@/components/MyFullButton.vue';
 
+const router = useRouter(); // ✅ Define router instance
 const email = ref('');
 const password = ref('');
 const loginCheck = ref(true);
@@ -13,13 +15,14 @@ function handleSubmit() {
     const passwordCheck = "root";
 
     if (email.value === emailCheck && password.value === passwordCheck) {
-        loginCheck.value = true; // ✅ Reset the error message
-        console.log("✅ Login successful");
+        loginCheck.value = true; // ✅ Reset error message
+        router.push('/home'); // ✅ Redirect to '/home' instead of '/about'
     } else {
         loginCheck.value = false; // ❌ Show error message
     }
 }
 </script>
+
 
 <template>
     <body class="min-h-screen bg-[--my-pure-white] font-nacelle">
