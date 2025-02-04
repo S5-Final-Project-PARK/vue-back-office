@@ -5,7 +5,7 @@ import SplitType from "split-type"; // ✅ Use 'split-type' package
 
 onMounted(() => {
   const cookscape = new SplitType("#cookscape", { types: "chars" });
-  const welcome = new SplitType("#welcome", { type: "words" });
+  const welcome = new SplitType("#welcome", { types: "words" });
 
   gsap.from("#admin",{
     duration: 1.5,

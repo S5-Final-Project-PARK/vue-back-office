@@ -1,6 +1,7 @@
 # Use a compatible Node.js version
 FROM node:20
 
+
 # install simple http server for serving static content
 RUN npm install -g http-server
 
