@@ -37,16 +37,9 @@ function handleSubmit() {
         <my-navigation-short v-else />
         <div class="pt-32">
             <main class="flex flex-col items-center justify-center rounded-lg">
-                <h1 class="font-montserrat font-extrabold text-4xl uppercase mb-8">create your own!</h1>
+                <h1 class="font-montserrat font-extrabold text-4xl uppercase mb-8">What your dream is made of?</h1>
                 <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 box-shadow-">
                     <div class="flex flex-col space-y-8">
-                            <my-input 
-                                type="text" 
-                                label="Your recipe's name" 
-                                :placeholder="placeholder" 
-                                id="recipe"
-                                v-model="recipe" 
-                            />
                         <my-full-button @click="handleSubmit" label="Create" />
                     </div>
                 </article>

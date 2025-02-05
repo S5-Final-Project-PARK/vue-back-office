@@ -29,12 +29,6 @@ onMounted(() => {
             <h1 class="font-bold text-4xl text-(--my-primary)">{{ label }}</h1>
             <section class="flex justify-start">
                 <section class="flex flex-col space-y-2">
-                    <h2 class="font-extralight">out of stock</h2>
-                    <p class="font-montserrat font-extrabold text-8xl text-(--my-secondary)">{{ stock }}</p>
-                </section>
-            </section>
-            <section class="flex justify-start">
-                <section class="flex flex-col space-y-2">
                     <h2 class="font-extralight">price</h2>
                     <p class="font-montserrat font-extrabold text-8xl text-(--my-secondary)">{{ useFormatNumber(price) }}
                         <span class="text-6xl">Ar</span>

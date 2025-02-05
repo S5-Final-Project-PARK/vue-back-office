@@ -28,6 +28,12 @@ const router = createRouter({
       meta: { title: "Insert A New Recipe" },
       component: () => import('@/views/InsertDishesView.vue'),
     },
+    {
+      path: '/details',
+      name: 'Details',
+      meta: { title: "Add Detail" },
+      component: () => import('@/views/InsertDishesDetailView.vue'),
+    },
   ],
 })
 
