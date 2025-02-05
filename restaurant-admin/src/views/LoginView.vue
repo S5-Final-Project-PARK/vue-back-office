@@ -26,14 +26,11 @@ function handleSubmit() {
 
 
 <template>
-    <head>
-        
-    </head>
     <body class="min-h-screen bg-(--my-pure-white) font-nacelle">
         <div class="pt-32">
             <my-login-header/>
             <main class="flex items-center justify-center space-y-6 rounded-lg">
-                <article class="container bg-[--my-white] rounded-xl px-4 py-8 w-2/5 box-shadow-">
+                <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 box-shadow-">
                     <div class="flex flex-col space-y-8">
                         <section class="flex flex-col space-y-4">
                             <my-input type="email" label="Your Email" placeholder="JohnDoe@gmail.com" id="email"

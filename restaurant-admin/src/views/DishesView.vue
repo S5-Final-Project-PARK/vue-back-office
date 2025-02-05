@@ -57,18 +57,26 @@ function closeDetails() {
 </script>
 
 <template>
-  <body class="bg-[--my-pure-white]">
+
+  <body class="bg-(--my-pure-white)">
     <my-navigation v-if="isScreenLarge" />
     <my-navigation-short v-else />
     <main>
-      <article class="flex flex-col space-y-8 font-nacelle text-[--my-black] mt-16 mx-32 p-16 rounded-2xl bg-[--my-white]">
+      <article
+        class="flex flex-col space-y-8 font-nacelle text-(--my-black) mt-16 mx-32 p-16 rounded-2xl bg-(--my-white)">
         <h1 class="font-montserrat font-extrabold text-4xl uppercase">All your dishes</h1>
-
+        <a href="/Cook"
+            class="flex flex-row space-x-2 px-8 py-4 w-64 bg-none rounded-full border-2 font-nacelle border-(--my-black) hover:bg-(--my-black) hover:text-(--my-white) duration-300 hover:translate-y-1">
+            <i class="pi pi-plus"></i>
+            <p>Add a new recipe</p>
+        </a>
         <!-- Details Section -->
         <section v-if="checkDetails" class="flex flex-row space-x-4">
-          <my-dishes-detail-section :label="dishDetails.name" :price="dishDetails.price" :stock="dishDetails.stock" :id="dishDetails.id" :ingredients="dishDetails.ingredients" />
+          <my-dishes-detail-section :label="dishDetails.name" :price="dishDetails.price" :stock="dishDetails.stock"
+            :id="dishDetails.id" :ingredients="dishDetails.ingredients" />
           <section>
-            <span @click="closeDetails" class="font-extralight flex flex-row space-x-2 hover:border-b-2 hover:border-red-600 hover:text-red-600 duration-100">
+            <span @click="closeDetails"
+              class="font-extralight flex flex-row space-x-2 hover:border-b-2 hover:border-red-600 hover:text-red-600 duration-100">
               <p>Close</p>
               <i class="pi pi-times"></i>
             </span>
@@ -77,16 +85,11 @@ function closeDetails() {
 
         <!-- Dish List -->
         <section id="list" class="grid grid-cols-4 grid-rows-2 gap-2">
-          <my-dishes-card 
-            v-for="(dish, index) in dishes" 
-            :key="index" 
-            :label="dish.name" 
-            :ingredients="dish.ingredients" 
-            @click="showDetails(dish)"
-          />
+          <my-dishes-card v-for="(dish, index) in dishes" :key="index" :label="dish.name"
+            :ingredients="dish.ingredients" @click="showDetails(dish)" />
         </section>
       </article>
     </main>
-    <my-footer />
+    <my-footer/>
   </body>
 </template>
