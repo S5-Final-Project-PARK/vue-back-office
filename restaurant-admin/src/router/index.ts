@@ -6,18 +6,31 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'login',
+      name: 'Login',
+      meta: { title: "Hello" },
       component: LoginView,
     },
     {
       path: '/home',
-      name: 'home',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/HomeView.vue'),
+      name: 'Home',
+      meta: { title: "Home" },
+      component: () => import('@/views/HomeView.vue'),
+    },
+    {
+      path: '/dishes',
+      name: 'Dishes',
+      meta: { title: "Dishes" },
+      component: () => import('@/views/DishesView.vue'),
     },
   ],
 })
 
-export default router
+// ✅ Dynamically update the document title
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title as string;
+  }
+  next();
+});
+
+export default router;

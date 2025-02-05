@@ -26,6 +26,9 @@ function handleSubmit() {
 
 
 <template>
+    <head>
+        
+    </head>
     <body class="min-h-screen bg-(--my-pure-white) font-nacelle">
         <div class="pt-32">
             <my-login-header/>
