@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'; // ✅ Import useRouter
 import MyLoginHeader from '@/components/MyLoginHeader.vue';
 import MyInput from '@/components/MyInput.vue';
 import MyFullButton from '@/components/MyFullButton.vue';
+import MyFooter from '@/components/MyFooter.vue';
 
 const router = useRouter(); // ✅ Define router instance
 const email = ref('');
@@ -25,7 +26,7 @@ function handleSubmit() {
 
 
 <template>
-    <body class="min-h-screen bg-[--my-pure-white] font-nacelle">
+    <body class="min-h-screen bg-(--my-pure-white) font-nacelle">
         <div class="pt-32">
             <my-login-header/>
             <main class="flex items-center justify-center space-y-6 rounded-lg">
@@ -48,10 +49,7 @@ function handleSubmit() {
                     </div>
                 </article>
             </main>
-
-            <footer class="text-xs font-extralight flex items-center justify-center mt-12">
-                &copy; ETU 2876, ETU 2670, ETU 2814, ETU 2703
-            </footer>
+            <my-footer/>
         </div>
     </body>
 </template>
