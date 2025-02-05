@@ -1,5 +1,4 @@
 <template>
-
     <article class="flex items-center justify-center font-nacelle mt-16">
         <div class="p-8 bg-(--my-primary) w-2/5 rounded-2xl text-(--my-white) flex flex-row">
             <article class="w-3/5">

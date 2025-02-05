@@ -21,7 +21,6 @@ const isScreenLarge = ref(true);
 </script>
 
 <template>
-
   <body class="bg-(--my-pure-white)">
     <my-navigation v-if="isScreenLarge" />
     <my-navigation-short v-else />
