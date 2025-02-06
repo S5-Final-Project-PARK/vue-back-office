@@ -51,7 +51,7 @@ function decreaseQuantity(ingredient: string) {
 // Function to handle form submission
 function handleSubmit() {
     console.log("Selected Ingredients & Quantities:", ingredientQuantities);
-    router.push('/details');
+    router.push('/dishes');
 }
 </script>
 
