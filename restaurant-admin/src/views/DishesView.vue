@@ -65,11 +65,11 @@ function closeDetails() {
       <article
         class="flex flex-col space-y-8 font-nacelle text-(--my-black) mt-16 mx-32 p-16 rounded-2xl bg-(--my-white)">
         <h1 class="font-montserrat font-extrabold text-4xl uppercase">All your dishes</h1>
-        <a href="/Cook"
-            class="flex flex-row space-x-2 px-8 py-4 w-64 bg-none rounded-full border-2 font-nacelle border-(--my-black) hover:bg-(--my-black) hover:text-(--my-white) duration-300 hover:translate-y-1">
-            <i class="pi pi-plus"></i>
-            <p>Add a new recipe</p>
-        </a>
+        <router-link to="/Cook"
+          class="flex flex-row space-x-2 px-8 py-4 w-64 bg-none rounded-full border-2 font-nacelle border-(--my-black) hover:bg-(--my-black) hover:text-(--my-white) duration-300 hover:translate-y-1">
+          <i class="pi pi-plus"></i>
+          <p>Add a new recipe</p>
+        </router-link>
         <!-- Details Section -->
         <section v-if="checkDetails" class="flex flex-row space-x-4">
           <my-dishes-detail-section :label="dishDetails.name" :price="dishDetails.price" :stock="dishDetails.stock"
@@ -90,6 +90,6 @@ function closeDetails() {
         </section>
       </article>
     </main>
-    <my-footer/>
+    <my-footer />
   </body>
 </template>
