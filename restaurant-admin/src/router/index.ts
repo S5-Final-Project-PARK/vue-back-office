@@ -34,6 +34,12 @@ const router = createRouter({
       meta: { title: "Add Detail" },
       component: () => import('@/views/InsertDishesDetailView.vue'),
     },
+    {
+      path: '/statistics',
+      name: 'Statistics',
+      meta: { title: "Stats" },
+      component: () => import('@/views/StatisticView.vue'),
+    },
   ],
 })
 
