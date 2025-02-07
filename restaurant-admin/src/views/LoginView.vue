@@ -12,12 +12,9 @@ const password = ref('');
 const loginCheck = ref(true);
 
 function handleSubmit() {
-    const emailCheck = "pyvas17@gmail.com";
-    const passwordCheck = "root";
 
-    if (email.value === emailCheck && password.value === passwordCheck) {
-        loginCheck.value = true; // ✅ Reset error message
-        router.push('/home'); // ✅ Redirect to '/home' instead of '/about'
+    if(true){
+        router.push('/home');
     } else {
         loginCheck.value = false; // ❌ Show error message
     }
