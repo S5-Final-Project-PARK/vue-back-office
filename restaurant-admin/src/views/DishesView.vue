@@ -17,17 +17,16 @@ const checkDetails = ref(false);
 const dishDetails = ref({
   id: 0,
   name: "lorem ipsum",
-  stock: 25,
   price: 10000,
   ingredients: [{ unit: 0, name: "" }]
 });
 
 // Sample dishes with dynamic ingredients
 const dishes = ref([
-  { id: 1, name: "Dish 1", stock: 10, price: 15000, ingredients: [{ unit: 1, name: "Tomato" }, { unit: 2, name: "Cheese" }] },
-  { id: 2, name: "Dish 2", stock: 8, price: 12000, ingredients: [{ unit: 3, name: "Basil" }, { unit: 1, name: "Olive Oil" }] },
-  { id: 3, name: "Dish 3", stock: 5, price: 18000, ingredients: [{ unit: 1, name: "Chicken" }, { unit: 2, name: "Garlic" }] },
-  { id: 4, name: "Dish 4", stock: 12, price: 10000, ingredients: [{ unit: 2, name: "Pepper" }, { unit: 1, name: "Salt" }] },
+  { id: 1, name: "Dish 1", price: 15000, ingredients: [{ unit: 1, name: "Tomato" }, { unit: 2, name: "Cheese" }] },
+  { id: 2, name: "Dish 2", price: 12000, ingredients: [{ unit: 3, name: "Basil" }, { unit: 1, name: "Olive Oil" },{ unit: 3, name: "Basil" }, { unit: 1, name: "Olive Oil" }] },
+  { id: 3, name: "Dish 3", price: 18000, ingredients: [{ unit: 1, name: "Chicken" }, { unit: 2, name: "Garlic" }] },
+  { id: 4, name: "Dish 4", price: 10000, ingredients: [{ unit: 2, name: "Pepper" }, { unit: 1, name: "Salt" }] },
 ]);
 
 onMounted(() => {
@@ -72,7 +71,7 @@ function closeDetails() {
         </router-link>
         <!-- Details Section -->
         <section v-if="checkDetails" class="flex flex-row space-x-4">
-          <my-dishes-detail-section :label="dishDetails.name" :price="dishDetails.price" :stock="dishDetails.stock"
+          <my-dishes-detail-section :label="dishDetails.name" :price="dishDetails.price"
             :id="dishDetails.id" :ingredients="dishDetails.ingredients" />
           <section>
             <span @click="closeDetails"

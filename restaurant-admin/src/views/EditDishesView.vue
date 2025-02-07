@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import MyInput from '@/components/MyInput.vue';
 import MyFullButton from '@/components/MyFullButton.vue';
 import MyFooter from '@/components/MyFooter.vue';
@@ -10,10 +10,16 @@ import { useScreenWidth } from '@/@util/useScreenWidth';
 import { useRandomizeIndex } from '@/@util/userRandomizeIndex';
 
 const router = useRouter();
+const route = useRoute();
+const query = route.query.info as string;
+const [encodedId, encodedRecipe, encodedPrice] = query.split('-');
+
+
 const screenWidth = useScreenWidth();
 const isScreenLarge = ref(true);
-const recipe = ref('');
-const price = ref('');
+const id =encodedId;
+const recipe = ref(decodeURIComponent(encodedRecipe));
+const price = ref(encodedPrice);
 const listPlaceholder = ref(["Garlic Soup", "Potage", "Ramen Noodle"]);
 const randomIndex = ref(useRandomizeIndex(listPlaceholder.value));
 
@@ -27,7 +33,7 @@ onMounted(() => {
 const placeholder = computed(() => listPlaceholder.value[randomIndex.value]);
 
 function handleSubmit() {
-    router.push('/details');
+    router.push(`/editDetails?info=${id}`);
 }
 </script>
 
@@ -37,9 +43,9 @@ function handleSubmit() {
         <my-navigation-short v-else />
         <div class="pt-32">
             <main class="flex flex-col items-center justify-center rounded-lg">
-                <h1 class="font-montserrat font-extrabold text-4xl uppercase mb-8">create your own!</h1>
+                <h1 class="font-montserrat font-extrabold text-4xl uppercase mb-8">add a twist to it!</h1>
                 <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 box-shadow-">
-                    <div class="flex flex-col space-y-8">
+                    <div class="flex flex-col space-y-8 mb-8">
                             <my-input 
                                 type="text" 
                                 label="Your recipe's name" 

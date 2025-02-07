@@ -29,6 +29,18 @@ const router = createRouter({
       component: () => import('@/views/InsertDishesView.vue'),
     },
     {
+      path: '/edit',
+      name: 'Edit',
+      meta: { title: "Edit" },
+      component: () => import('@/views/EditDishesView.vue'),
+    },
+    {
+      path: '/editDetails',
+      name: 'EditDetails',
+      meta: { title: "Edit details" },
+      component: () => import('@/views/EditDishesDetailView.vue'),
+    },
+    {
       path: '/details',
       name: 'Details',
       meta: { title: "Add Detail" },
@@ -39,6 +51,12 @@ const router = createRouter({
       name: 'Statistics',
       meta: { title: "Stats" },
       component: () => import('@/views/StatisticView.vue'),
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      meta: { title: "Orders" },
+      component: () => import('@/views/OrderView.vue'),
     },
   ],
 })
