@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router'; // ✅ Import useRouter
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuth } from '@/@util/useConnect'; // ✅ Import the composable
 import MyLoginHeader from '@/components/MyLoginHeader.vue';
 import MyInput from '@/components/MyInput.vue';
 import MyFullButton from '@/components/MyFullButton.vue';
 import MyFooter from '@/components/MyFooter.vue';
 
-const router = useRouter(); // ✅ Define router instance
-const email = ref('');
-const password = ref('');
-const loginCheck = ref(true);
+const { email, password, loginAction, validationErrors, isSubmitting } = useAuth(); // ✅ Extract variables
+const router = useRouter();
 
-function handleSubmit() {
-
-    if(true){
-        router.push('/home');
-    } else {
-        loginCheck.value = false; // ❌ Show error message
+// ✅ Check if the user is already logged in
+onMounted(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        router.push('/home'); // Redirect to home if a session exists
     }
-}
+});
 </script>
-
 
 <template>
     <body class="min-h-screen bg-(--my-pure-white) font-nacelle">
@@ -30,19 +27,29 @@ function handleSubmit() {
                 <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 box-shadow-">
                     <div class="flex flex-col space-y-8">
                         <section class="flex flex-col space-y-4">
-                            <my-input type="email" label="Your Email" placeholder="JohnDoe@gmail.com" id="email"
-                                v-model="email" />
-                            <my-input type="password" label="Password" placeholder="Password" id="password"
-                                v-model="password" />
+                            <my-input 
+                                type="email" 
+                                label="Your Email" 
+                                placeholder="JohnDoe@gmail.com" 
+                                id="email"
+                                v-model="email" 
+                            />
+                            <my-input 
+                                type="password" 
+                                label="Password" 
+                                placeholder="Password" 
+                                id="password"
+                                v-model="password" 
+                            />
                         </section>
 
-                        <!-- ✅ Fixed v-if syntax -->
-                        <p v-if="!loginCheck" class="text-red-800 text-sm">
-                            ❌ Wrong email OR password. Please try again.
+                        <!-- ✅ Show error message if login fails -->
+                        <p v-if="Object.keys(validationErrors).length" class="text-red-800 text-sm">
+                            ❌ {{ validationErrors }}
                         </p>
 
-                        <!-- ✅ Prevent default form submission -->
-                        <my-full-button @click="handleSubmit" label="Log In" />
+                        <!-- ✅ Call loginAction() and disable button while submitting -->
+                        <my-full-button @click="loginAction" :disabled="isSubmitting" label="Log In" />
                     </div>
                 </article>
             </main>
