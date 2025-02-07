@@ -63,7 +63,7 @@ function handleSubmit() {
         <div class="pt-32">
             <main class="flex flex-col items-center justify-center rounded-lg">
                 <h1 class="font-montserrat font-extrabold text-4xl uppercase mb-8">What your dream is made of?</h1>
-                <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 box-shadow-">
+                <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 shadow-2xs">
                     <div class="flex flex-col space-y-8">
                         <section class="flex flex-col space-y-2">
                             <section v-for="ingredient in ingredients" :key="ingredient"
