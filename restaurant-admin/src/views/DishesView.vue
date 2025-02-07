@@ -12,7 +12,7 @@ import MyDishesDetailSection from '@/components/MyDishesDetailSection.vue';
 // Function to track screen width
 const screenWidth = useScreenWidth();
 const isScreenLarge = ref(true);
-const checkDetails = ref(false);
+const isDetailsSectionOpen = ref(false);
 
 const dishDetails = ref({
   id: 0,
@@ -41,12 +41,12 @@ onMounted(() => {
 // Function to show dish details
 function showDetails(dish: any) {
   dishDetails.value = { ...dish }; // Update dish details dynamically
-  checkDetails.value = true;
+  isDetailsSectionOpen.value = true;
 }
 
 // Function to close details
 function closeDetails() {
-  checkDetails.value = false;
+  isDetailsSectionOpen.value = false;
   gsap.from("#list", {
     y: -50,
     duration: 0.4,
@@ -70,7 +70,7 @@ function closeDetails() {
           <p>Add a new recipe</p>
         </router-link>
         <!-- Details Section -->
-        <section v-if="checkDetails" class="flex flex-row space-x-4">
+        <section v-if="isDetailsSectionOpen" class="flex flex-row space-x-4">
           <my-dishes-detail-section :label="dishDetails.name" :price="dishDetails.price"
             :id="dishDetails.id" :ingredients="dishDetails.ingredients" />
           <section>
