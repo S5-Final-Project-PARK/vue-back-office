@@ -4,7 +4,7 @@ import MyFooter from '@/components/MyFooter.vue';
 import MyHomeHeader from '@/components/MyHomeHeader.vue';
 import MyNavigation from '@/components/MyNavigation.vue';
 import MyNavigationShort from '@/components/MyNavigationShort.vue';
-import { ref, watchEffect } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 import MyDownloadSection from '@/components/MyDownloadSection.vue';
 import 'primeicons/primeicons.css'
 import MyPlaySection from '@/components/MyPlaySection.vue';
@@ -13,6 +13,12 @@ import MyPlaySection from '@/components/MyPlaySection.vue';
 const screenWidth = useScreenWidth();
 const defaultScreenWidth = ref(screenWidth.value);
 const isScreenLarge = ref(true);
+
+onMounted(()=>{
+  const token = localStorage.getItem("email");
+  console.log(token);
+})
+
 
 // ✅ Reactively update `isScreenLarge`
 /*watchEffect(() => {
