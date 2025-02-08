@@ -6,20 +6,21 @@ import MyFooter from '@/components/MyFooter.vue';
 import MyNavigation from '@/components/MyNavigation.vue';
 import MyNavigationShort from '@/components/MyNavigationShort.vue';
 import { useScreenWidth } from '@/@util/useScreenWidth';
-import { getIngredient } from '@/@util/useConnectData';
+import { getIngredients } from '@/@util/useConnectData';
 import gsap from "gsap";
+import type { Ingredient } from '@/@util/interace/Ingredient';
 
 const router = useRouter();
 const screenWidth = useScreenWidth();
 const isScreenLarge = ref(true);
 const hasLoaded = ref(false);
-const ingredients = ref<{ name: string; Quantity: number }[]>([]); // ✅ Store data in ref
+const ingredients = ref<Ingredient[]>([]); // ✅ Store data in ref
 
 
 onMounted(async () => {
 
     gsap.from("#title", { duration: 0.8, x: 100, ease: "out", opacity: 0 });
-    ingredients.value = await getIngredient(); // ✅ Assign fetched data
+    ingredients.value = await getIngredients(); // ✅ Assign fetched data
     console.log(ingredients.value); // ✅ Now it will log real data
     hasLoaded.value = true;
 });

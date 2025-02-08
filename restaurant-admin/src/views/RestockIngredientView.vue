@@ -7,7 +7,7 @@ import MyFooter from '@/components/MyFooter.vue';
 import MyNavigation from '@/components/MyNavigation.vue';
 import MyNavigationShort from '@/components/MyNavigationShort.vue';
 import { useScreenWidth } from '@/@util/useScreenWidth';
-import { getIngredient, updateIngredient, updateIngredientStock } from '@/@util/useConnectData';
+import { getIngredients, restockIngredientStock } from '@/@util/useConnectData';
 import gsap from "gsap";
 
 const router = useRouter();
@@ -31,7 +31,7 @@ function errorToggle() {
 }
 
 onMounted(async () => {
-    ingredients.value = await getIngredient();
+    ingredients.value = await getIngredients();
 });
 
 async function handleSubmit() {
@@ -55,7 +55,7 @@ async function handleSubmit() {
     }
 
     try {
-        await updateIngredientStock(selectedIngredient.value, restockAmount); // ✅ Wait for API call
+        await restockIngredientStock(selectedIngredient.value, restockAmount); // ✅ Wait for API call
         router.push('/ingredient'); // ✅ Only navigate after API call finishes
     } catch (error) {
         insertCheck.value = false;

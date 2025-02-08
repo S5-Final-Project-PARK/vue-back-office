@@ -8,12 +8,15 @@ import 'primeicons/primeicons.css';
 import MyDishesCard from '@/components/MyDishesCard.vue';
 import gsap from 'gsap';
 import MyDishesDetailSection from '@/components/MyDishesDetailSection.vue';
+import { getRecipes } from '@/@util/useConnectData';
+import type { Recipe } from '@/@util/interace/Recipe';
 
 // Function to track screen width
 const screenWidth = useScreenWidth();
 const isScreenLarge = ref(true);
 const isDetailsSectionOpen = ref(false);
 
+// Selected recipe details
 const dishDetails = ref({
   id: 0,
   name: "lorem ipsum",
@@ -21,26 +24,42 @@ const dishDetails = ref({
   ingredients: [{ unit: 0, name: "" }]
 });
 
-// Sample dishes with dynamic ingredients
-const dishes = ref([
-  { id: 1, name: "Dish 1", price: 15000, ingredients: [{ unit: 1, name: "Tomato" }, { unit: 2, name: "Cheese" }] },
-  { id: 2, name: "Dish 2", price: 12000, ingredients: [{ unit: 3, name: "Basil" }, { unit: 1, name: "Olive Oil" },{ unit: 3, name: "Basil" }, { unit: 1, name: "Olive Oil" }] },
-  { id: 3, name: "Dish 3", price: 18000, ingredients: [{ unit: 1, name: "Chicken" }, { unit: 2, name: "Garlic" }] },
-  { id: 4, name: "Dish 4", price: 10000, ingredients: [{ unit: 2, name: "Pepper" }, { unit: 1, name: "Salt" }] },
-]);
 
-onMounted(() => {
+const recipes = ref<Recipe[]>([]);
+
+onMounted(async () => {
   gsap.from("#list", {
     opacity: 0,
     y: -50,
     duration: 0.6,
     ease: "power2.out",
   });
+
+  try {
+    const data = await getRecipes();
+    // ✅ Ensure data is always an array and transform it correctly
+    recipes.value = data.map((recipe: any) => ({
+      id: recipe.id,
+      Dish: recipe.Dish, // Convert "Dish" (API) to "dish" (TypeScript)
+      recipeIngredients: recipe.recipeIngredients.map((ri: any) => ({
+        id: ri.id,
+        ingredients: ri.ingredients, // Convert "ingredients" (API) to "ingredient" (TypeScript)
+        quantity: ri.quantity
+      }))
+    }));
+
+    console.log("Processed Dishes:", recipes.value);
+    console.log("Processed Dishes:", JSON.stringify(recipes.value, null, 2));
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+    recipes.value = [];
+  }
 });
 
-// Function to show dish details
-function showDetails(dish: any) {
-  dishDetails.value = { ...dish }; // Update dish details dynamically
+
+// Function to show recipe details
+function showDetails(recipe: any) {
+  dishDetails.value = { ...recipe }; // Update recipe details dynamically
   isDetailsSectionOpen.value = true;
 }
 
@@ -56,23 +75,23 @@ function closeDetails() {
 </script>
 
 <template>
-
   <body class="bg-(--my-pure-white)">
     <my-navigation v-if="isScreenLarge" />
     <my-navigation-short v-else />
     <main>
       <article
         class="flex flex-col space-y-8 font-nacelle text-(--my-black) mt-16 mx-32 p-16 rounded-2xl bg-(--my-white)">
-        <h1 class="font-montserrat font-extrabold text-4xl uppercase">All your dishes</h1>
+        <h1 class="font-montserrat font-extrabold text-4xl uppercase">All your recipe</h1>
         <router-link to="/Cook"
           class="flex flex-row space-x-2 px-8 py-4 w-64 bg-none rounded-full border-2 font-nacelle border-(--my-black) hover:bg-(--my-black) hover:text-(--my-white) duration-300 hover:translate-y-1">
           <i class="pi pi-plus"></i>
           <p>Add a new recipe</p>
         </router-link>
+
         <!-- Details Section -->
         <section v-if="isDetailsSectionOpen" class="flex flex-row space-x-4">
-          <my-dishes-detail-section :label="dishDetails.name" :price="dishDetails.price"
-            :id="dishDetails.id" :ingredients="dishDetails.ingredients" />
+          <!--<my-dish-detail-section :label="dishDetails.name" :price="dishDetails.price"
+            :id="dishDetails.id" :ingredients="dishDetails.ingredients" />-->
           <section>
             <span @click="closeDetails"
               class="font-extralight flex flex-row space-x-2 hover:border-b-2 hover:border-red-600 hover:text-red-600 duration-100">
@@ -84,9 +103,13 @@ function closeDetails() {
 
         <!-- Dish List -->
         <section id="list" class="grid grid-cols-4 grid-rows-2 gap-2">
-          <my-dishes-card v-for="(dish, index) in dishes" :key="index" :label="dish.name"
-            :ingredients="dish.ingredients" @click="showDetails(dish)" />
+          <my-dishes-card v-for="recipe in recipes" :key="recipe.id" :label="recipe.Dish.name"
+            :recipeIngredients="recipe.recipeIngredients" />
         </section>
+
+        <!-- No Dishes Message -->
+        <p v-if="!recipes.length" class="text-center text-gray-500">No dishes available.</p>
+
       </article>
     </main>
     <my-footer />

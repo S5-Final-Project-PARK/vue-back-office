@@ -3,8 +3,14 @@ import MyIngredientTag from '@/components/MyIngredientTag.vue';
 
 defineProps<{
     label: string;
-    ingredients: { unit: number; name: string }[]; // Array of ingredients
+    recipeIngredients: { 
+        id: number; 
+        ingredients: { id: number; name: string; Quantity: number; };
+        quantity: number; // ✅ Include quantity for clarity
+    }[];
 }>();
+
+
 </script>
 
 <template>
@@ -13,8 +19,15 @@ defineProps<{
         <section class="flex flex-col">
             <h1 class="font-bold text-xl">{{ label }}</h1>
             <section class="w-64 flex flex-wrap gap-2">
-                <my-ingredient-tag v-for="ingredient in ingredients" :key="ingredient.name" :unit="ingredient.unit" :label="ingredient.name" />
+                <!-- ✅ Correctly loop through recipeIngredients -->
+                <my-ingredient-tag 
+                    v-for="item in recipeIngredients" 
+                    :key="item.id" 
+                    :unit="item.quantity" 
+                    :label="item.ingredients.name" 
+                />
             </section>
         </section>
     </div>
 </template>
+
