@@ -93,7 +93,7 @@ function handleSubmit() {
                                 <button @click="decreaseQuantity(ingredient.name)"
                                     :disabled="!selectedIngredients.has(ingredient.name)"
                                     class="flex-2 px-4 bg-(--my-white) text-(--my-primary) rounded-2xl border-2 border-(--my-primary) pt-1 text-2xl font-montserrat font-bold duration-300"
-                                    :class="{ 'opacity-50 cursor-not-allowed': !selectedIngredients.has(ingredient.name), 'hover:bg-(--my-primary) hover:text-(--my-white)': selectedIngredients.has(ingredient) }">
+                                    :class="{ 'opacity-50 cursor-not-allowed': !selectedIngredients.has(ingredient.name), 'hover:bg-(--my-primary) hover:text-(--my-white)': selectedIngredients.has(ingredient.name) }">
                                     <i class="pi pi-minus"></i>
                                 </button>
                             </section>

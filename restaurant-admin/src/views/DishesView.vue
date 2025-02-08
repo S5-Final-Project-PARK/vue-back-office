@@ -17,13 +17,7 @@ const isScreenLarge = ref(true);
 const isDetailsSectionOpen = ref(false);
 
 // Selected recipe details
-const dishDetails = ref({
-  id: 0,
-  name: "lorem ipsum",
-  price: 10000,
-  ingredients: [{ unit: 0, name: "" }]
-});
-
+const dishDetails = ref<Recipe | null>(null);
 
 const recipes = ref<Recipe[]>([]);
 
@@ -40,7 +34,7 @@ onMounted(async () => {
     // ✅ Ensure data is always an array and transform it correctly
     recipes.value = data.map((recipe: any) => ({
       id: recipe.id,
-      Dish: recipe.Dish, // Convert "Dish" (API) to "dish" (TypeScript)
+      Dish: recipe.Dish, // Convert "Dish" (API) to "Dish" (TypeScript)
       recipeIngredients: recipe.recipeIngredients.map((ri: any) => ({
         id: ri.id,
         ingredients: ri.ingredients, // Convert "ingredients" (API) to "ingredient" (TypeScript)
@@ -56,16 +50,16 @@ onMounted(async () => {
   }
 });
 
-
 // Function to show recipe details
-function showDetails(recipe: any) {
-  dishDetails.value = { ...recipe }; // Update recipe details dynamically
+function showDetails(recipe: Recipe) {
+  dishDetails.value = recipe;
   isDetailsSectionOpen.value = true;
 }
 
 // Function to close details
 function closeDetails() {
   isDetailsSectionOpen.value = false;
+  dishDetails.value = null;
   gsap.from("#list", {
     y: -50,
     duration: 0.4,
@@ -75,6 +69,7 @@ function closeDetails() {
 </script>
 
 <template>
+
   <body class="bg-(--my-pure-white)">
     <my-navigation v-if="isScreenLarge" />
     <my-navigation-short v-else />
@@ -90,8 +85,11 @@ function closeDetails() {
 
         <!-- Details Section -->
         <section v-if="isDetailsSectionOpen" class="flex flex-row space-x-4">
-          <!--<my-dish-detail-section :label="dishDetails.name" :price="dishDetails.price"
-            :id="dishDetails.id" :ingredients="dishDetails.ingredients" />-->
+          <my-dishes-detail-section v-if="dishDetails" :label="dishDetails.Dish.name" :price="dishDetails.Dish.price"
+            :id="dishDetails.id" :ingredients="dishDetails.recipeIngredients.map(ri => ({
+              unit: ri.ingredients.Quantity, // Fix here 
+              name: ri.ingredients.name
+            }))" />
           <section>
             <span @click="closeDetails"
               class="font-extralight flex flex-row space-x-2 hover:border-b-2 hover:border-red-600 hover:text-red-600 duration-100">
@@ -103,8 +101,15 @@ function closeDetails() {
 
         <!-- Dish List -->
         <section id="list" class="grid grid-cols-4 grid-rows-2 gap-2">
-          <my-dishes-card v-for="recipe in recipes" :key="recipe.id" :label="recipe.Dish.name"
-            :recipeIngredients="recipe.recipeIngredients" />
+          <my-dishes-card 
+            v-for="recipe in recipes" 
+            :key="recipe.id" 
+            :label="recipe.Dish.name" 
+            :recipeIngredients="dishDetails?.recipeIngredients?.map(ri => ({
+            id: ri.id,
+            ingredients: ri.ingredients,
+            quantity: ri.ingredients.Quantity
+          })) || []" @click="showDetails(recipe)" />
         </section>
 
         <!-- No Dishes Message -->
