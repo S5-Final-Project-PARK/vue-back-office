@@ -12,3 +12,11 @@ export async function getIngredient() {
       return []; // ✅ Ensure function always returns an array
   }
 }
+
+export async function updateIngredientStock( ingredientsId:string, newQuantity:number){
+    await axios.post(backEndLink+"/ingredients/update-quantity",
+      {
+        ingredient_id:ingredientsId,
+        new_quantity:newQuantity,
+      });
+}
