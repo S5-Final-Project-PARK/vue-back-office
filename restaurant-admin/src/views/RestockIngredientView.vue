@@ -97,7 +97,7 @@ async function handleSubmit() {
                             ❌ {{ errorText }}
                         </p>
                         <!-- Submit Button -->
-                        <my-full-button v-if="!isSubmitting" @click="handleSubmit" label="UPDATE" />
+                        <my-full-button v-if="!isSubmitting" @click="handleSubmit" label="RESTOCK" />
                         <my-full-button v-else label="INSERTING..." />
 
                     </div>

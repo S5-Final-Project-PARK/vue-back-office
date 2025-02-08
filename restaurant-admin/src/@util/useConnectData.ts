@@ -13,10 +13,10 @@ export async function getIngredient() {
   }
 }
 
-export async function updateIngredientStock( ingredientsId:string, newQuantity:number){
-    await axios.post(backEndLink+"/ingredients/update-quantity",
+export async function updateIngredientStock( ingredientsId:string, Quantity:number){
+    await axios.post(backEndLink+"/ingredients/add-quantity",
       {
         ingredient_id:ingredientsId,
-        new_quantity:newQuantity,
+        added_quantity:Quantity,
       });
 }

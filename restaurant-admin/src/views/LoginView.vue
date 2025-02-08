@@ -24,7 +24,7 @@ onMounted(() => {
         <div class="pt-32">
             <my-login-header/>
             <main class="flex items-center justify-center space-y-6 rounded-lg">
-                <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 box-shadow-">
+                <article class="container bg-(--my-white) rounded-xl px-4 py-8 w-2/5 shadow-lg">
                     <div class="flex flex-col space-y-8">
                         <section class="flex flex-col space-y-4">
                             <my-input 
@@ -48,8 +48,12 @@ onMounted(() => {
                             ❌ {{ validationErrors }}
                         </p>
 
-                        <!-- ✅ Call loginAction() and disable button while submitting -->
-                        <my-full-button @click="loginAction" :disabled="isSubmitting" label="Log In" />
+                        <!-- ✅ Button changes text when submitting -->
+                        <my-full-button 
+                            @click="loginAction" 
+                            :disabled="isSubmitting" 
+                            :label="isSubmitting ? 'Logging in...' : 'Log In'" 
+                        />
                     </div>
                 </article>
             </main>

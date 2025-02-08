@@ -22,6 +22,8 @@ export function useAuth() {
       })
 
       localStorage.setItem('token', response.data.token)
+      
+      localStorage.setItem('email',email.value)
       router.push('/home')
     } catch (error: unknown) {
       isSubmitting.value = false
