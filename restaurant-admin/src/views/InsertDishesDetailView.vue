@@ -6,57 +6,90 @@ import MyFooter from '@/components/MyFooter.vue';
 import MyNavigation from '@/components/MyNavigation.vue';
 import MyNavigationShort from '@/components/MyNavigationShort.vue';
 import { useScreenWidth } from '@/@util/useScreenWidth';
-import { getIngredients} from '@/@util/useConnectData';
+import { getDishes, getIngredients, insertRecipe } from '@/@util/useConnectData';
 import MyIngredientRadio from '@/components/MyIngredientRadio.vue';
+import type { Ingredient } from '@/@util/interace/Ingredient';
+import type { Dish } from '@/@util/interace/Dish';
 
 const router = useRouter();
 const screenWidth = useScreenWidth();
 const isScreenLarge = ref(true);
 const hasLoaded = ref(false);
 
-const ingredients = ref<{ name: string; id: number }[]>([]);
+const ingredients = ref<Ingredient[]>([]);
+const selectedDish = ref<Dish>();
 
 // Store selected ingredients in a reactive object
-const selectedIngredients = reactive(new Set<string>());
-
-// Store ingredient quantities (only for selected ones)
-const ingredientQuantities = reactive<Record<string, number>>({});
-
+const selectedIngredients = reactive(new Map<number, { name: string; quantity: number }>());
 
 // Function to toggle ingredient selection
-function toggleSelection(ingredient: string) {
-    if (selectedIngredients.has(ingredient)) {
-        selectedIngredients.delete(ingredient);
-        delete ingredientQuantities[ingredient]; // Remove from quantities
+function toggleSelection(ingredient: Ingredient) {
+    if (selectedIngredients.has(ingredient.id)) {
+        selectedIngredients.delete(ingredient.id);
     } else {
-        selectedIngredients.add(ingredient);
-        ingredientQuantities[ingredient] = 0; // Initialize quantity
+        selectedIngredients.set(ingredient.id, { name: ingredient.name, quantity: 1 });
     }
 }
 
 // Function to increase quantity
-function increaseQuantity(ingredient: string) {
-    if (selectedIngredients.has(ingredient)) {
-        ingredientQuantities[ingredient]++;
+function increaseQuantity(ingredient: Ingredient) {
+    if (selectedIngredients.has(ingredient.id)) {
+        selectedIngredients.get(ingredient.id)!.quantity++;
     }
 }
-// Function to increase quantity
-function decreaseQuantity(ingredient: string) {
-    if (selectedIngredients.has(ingredient)) {
-        if (ingredientQuantities[ingredient] > 0) {
-            ingredientQuantities[ingredient]--;
-        }
+
+// Function to decrease quantity
+function decreaseQuantity(ingredient: Ingredient) {
+    if (selectedIngredients.has(ingredient.id) && selectedIngredients.get(ingredient.id)!.quantity > 1) {
+        selectedIngredients.get(ingredient.id)!.quantity--;
     }
 }
 
 onMounted(async () => {
     ingredients.value = await getIngredients();
+    const dishes = await getDishes();
+
+    const newDisheName = localStorage.getItem("newDisheName");
+
+    if (newDisheName) { // Ensure newDisheName is not null
+        for (const dish of dishes) {
+            if (newDisheName === dish.name) {
+                selectedDish.value = dish;
+                console.log("Dish found:", selectedDish.value);
+                break;
+            }
+        }
+    } else {
+        console.log("No dish name found in localStorage");
+    }
+
     hasLoaded.value = true;
 });
-// Function to handle form submission
-function handleSubmit() {
-    console.log("Selected Ingredients & Quantities:", ingredientQuantities);
-    router.push('/dishes');
+
+async function handleSubmit() {
+    const finalSelection = Array.from(selectedIngredients.entries()).map(([id, { name, quantity }]) => ({
+        id,
+        name,
+        quantity,
+    }));
+
+    const finalIngredients = ref<Ingredient[]>([]);
+
+    // Correct the casing here:
+    finalIngredients.value = finalSelection.map(item => ({
+        id: item.id,
+        name: item.name,
+        Quantity: item.quantity, // Capital 'Q'
+    }));
+
+    try {
+        await insertRecipe(selectedDish.value?.id, finalIngredients.value);
+        //console.log(selectedDish.value?.id);
+        console.log("Recipe created successfully!");
+        router.push('/dishes'); // Redirect after success
+    } catch (error) {
+        console.error("Failed to create recipe:", error);
+    }
 }
 </script>
 
@@ -75,35 +108,35 @@ function handleSubmit() {
                                 class="flex flex-row space-x-2">
                                 <!-- Ingredient selection -->
                                 <MyIngredientRadio class="flex-6" :label="ingredient.name"
-                                    @click="toggleSelection(ingredient.name)" />
+                                    @click="toggleSelection(ingredient)" />
 
                                 <!-- Display quantity only if selected -->
-                                <p v-if="selectedIngredients.has(ingredient.name)"
-                                    class=" flex-2 px-4 bg-(--my-primary) text-(--my-white) rounded-2xl pt-1 text-2xl font-montserrat font-bold">
-                                    {{ ingredientQuantities[ingredient.name] }}
+                                <p v-if="selectedIngredients.has(ingredient.id)"
+                                    class="flex-2 px-4 bg-(--my-primary) text-(--my-white) rounded-2xl pt-1 text-2xl font-montserrat font-bold">
+                                    {{ selectedIngredients.get(ingredient.id)?.quantity }}
                                 </p>
 
                                 <!-- Plus button (disabled if not selected) -->
-                                <button @click="increaseQuantity(ingredient.name)"
-                                    :disabled="!selectedIngredients.has(ingredient.name)"
+                                <button @click="increaseQuantity(ingredient)"
+                                    :disabled="!selectedIngredients.has(ingredient.id)"
                                     class="flex-2 px-4 bg-(--my-white) text-(--my-primary) rounded-2xl border-2 border-(--my-primary) pt-1 text-2xl font-montserrat font-bold duration-300"
-                                    :class="{ 'opacity-50 cursor-not-allowed': !selectedIngredients.has(ingredient.name), 'hover:bg-(--my-primary) hover:text-(--my-white)': selectedIngredients.has(ingredient.name) }">
+                                    :class="{ 'opacity-50 cursor-not-allowed': !selectedIngredients.has(ingredient.id), 'hover:bg-(--my-primary) hover:text-(--my-white)': selectedIngredients.has(ingredient.id) }">
                                     <i class="pi pi-plus"></i>
                                 </button>
-                                <button @click="decreaseQuantity(ingredient.name)"
-                                    :disabled="!selectedIngredients.has(ingredient.name)"
+                                <button @click="decreaseQuantity(ingredient)"
+                                    :disabled="!selectedIngredients.has(ingredient.id)"
                                     class="flex-2 px-4 bg-(--my-white) text-(--my-primary) rounded-2xl border-2 border-(--my-primary) pt-1 text-2xl font-montserrat font-bold duration-300"
-                                    :class="{ 'opacity-50 cursor-not-allowed': !selectedIngredients.has(ingredient.name), 'hover:bg-(--my-primary) hover:text-(--my-white)': selectedIngredients.has(ingredient.name) }">
+                                    :class="{ 'opacity-50 cursor-not-allowed': !selectedIngredients.has(ingredient.id), 'hover:bg-(--my-primary) hover:text-(--my-white)': selectedIngredients.has(ingredient.id) }">
                                     <i class="pi pi-minus"></i>
                                 </button>
                             </section>
                         </section>
                         <section v-else class="flex flex-col items-center justify-center">
-                        <div class=" text-6xl mt-16">
-                            <i class="pi pi-spin pi-spinner"></i>
-                        </div>
-                        <p class=" animate-pulse">Loading Ingredient...</p>
-                    </section>
+                            <div class="text-6xl mt-16">
+                                <i class="pi pi-spin pi-spinner"></i>
+                            </div>
+                            <p class="animate-pulse">Loading Ingredients...</p>
+                        </section>
                         <my-full-button @click="handleSubmit" label="Create" />
                     </div>
                 </article>
