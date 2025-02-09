@@ -37,7 +37,7 @@ onUnmounted(() => document.removeEventListener("click", handleClickOutside));
         <my-navigation-item link="/orders" label="orders" />
         <my-navigation-item link="/Dishes" label="dishes" />
         <my-navigation-item link="/ingredient" label="ingredients" />
-        <my-navigation-item link="/Statistics" label="statistics" />
+        <!--<my-navigation-item link="/Statistics" label="statistics" />-->
         <!-- "You" button with dropdown -->
         <button @click.stop="toggleDropdown"
             class="px-8 py-4 w-full justify-items-stretch bg-(--my-primary) hover:bg-(--my-primary-darker) transition duration-300 ease-out">
