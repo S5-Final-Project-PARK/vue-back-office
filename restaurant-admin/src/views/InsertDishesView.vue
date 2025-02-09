@@ -13,7 +13,7 @@ const router = useRouter();
 const screenWidth = useScreenWidth();
 const isScreenLarge = ref(true);
 const recipe = ref('');
-const price = ref('');
+const price = ref(null);
 const listPlaceholder = ref(["Garlic Soup", "Potage", "Ramen Noodle"]);
 const randomIndex = ref(useRandomizeIndex(listPlaceholder.value));
 

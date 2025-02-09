@@ -13,7 +13,11 @@ const props = defineProps<{
     id: number;
     label: string;
     price: number;
-    ingredients: { unit: number; name: string }[];
+    recipeIngredients: {
+        id: number;
+        ingredients: { id: number; name: string; Quantity: number; };
+        quantity: number; // ✅ Include quantity for clarity
+    }[];
 }>();
 
 const isDeleteWindowOpen = ref(false);
@@ -46,17 +50,20 @@ onMounted(() => {
         ease: "out",
     });
 });
+
+const isOutOfStock = computed(() => {
+    return props.recipeIngredients.some(ri => {
+        // Assuming 'ri.ingredients.Quantity' represents the available stock
+        return ri.ingredients.Quantity < ri.quantity;
+    });
+});
+
 </script>
 
 <template>
     <!-- Reusable Delete Modal -->
-    <my-delete-window
-        :isOpen="isDeleteWindowOpen" 
-        :dishName="label"
-        :dishId="id"
-        @close="closeDelete" 
-        @confirm="confirmDelete" 
-    />
+    <my-delete-window :isOpen="isDeleteWindowOpen" :dishName="label" :dishId="id" @close="closeDelete"
+        @confirm="confirmDelete" />
 
     <section id="div" class="flex flex-row space-x-8">
         <img class="rounded-2xl w-64 shadow-2xl" src="../assets/img/food.jpg" alt="Food Image">
@@ -70,14 +77,15 @@ onMounted(() => {
                     </p>
                 </section>
             </section>
-            <span class="text-green-600 font-extralight">Ingredients are in stock</span>
+            <span v-if="isOutOfStock" class="text-red-600 font-extralight">Ingredients are out of stock</span>
+            <span v-else class="text-green-600 font-extralight">Ingredients are in stock</span>
         </section>
         <section class="flex flex-col space-y-2 justify-between">
             <section class="flex-6 p-4 rounded-md w-64 border-2 border-(--my-black)">
                 <h2 class="font-bold text-(--my-secondary) text-2xl">Ingredients</h2>
                 <ul class="flex flex-wrap">
-                    <li v-for="ingredient in ingredients" :key="ingredient.name">
-                        {{ ingredient.unit }} {{ ingredient.name }},
+                    <li v-for="item in recipeIngredients" :key="item.id">
+                        {{ item.quantity }} {{ item.ingredients.name }}
                     </li>
                 </ul>
             </section>

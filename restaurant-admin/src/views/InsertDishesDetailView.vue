@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import MyFullButton from '@/components/MyFullButton.vue';
 import MyFooter from '@/components/MyFooter.vue';

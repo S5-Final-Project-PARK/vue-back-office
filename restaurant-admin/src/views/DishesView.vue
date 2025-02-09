@@ -86,10 +86,11 @@ function closeDetails() {
         <!-- Details Section -->
         <section v-if="isDetailsSectionOpen" class="flex flex-row space-x-4">
           <my-dishes-detail-section v-if="dishDetails" :label="dishDetails.Dish.name" :price="dishDetails.Dish.price"
-            :id="dishDetails.id" :ingredients="dishDetails.recipeIngredients.map(ri => ({
-              unit: ri.ingredients.Quantity, // Fix here 
-              name: ri.ingredients.name
-            }))" />
+            :id="dishDetails.id" :recipeIngredients="dishDetails?.recipeIngredients?.map(ri => ({
+              id: ri.id,
+              ingredients: ri.ingredients,
+              quantity: ri.ingredients.Quantity
+            })) || []" />
           <section>
             <span @click="closeDetails"
               class="font-extralight flex flex-row space-x-2 hover:border-b-2 hover:border-red-600 hover:text-red-600 duration-100">
@@ -101,15 +102,12 @@ function closeDetails() {
 
         <!-- Dish List -->
         <section id="list" class="grid grid-cols-4 grid-rows-2 gap-2">
-          <my-dishes-card 
-            v-for="recipe in recipes" 
-            :key="recipe.id" 
-            :label="recipe.Dish.name" 
-            :recipeIngredients="dishDetails?.recipeIngredients?.map(ri => ({
+          <my-dishes-card v-for="recipe in recipes" :key="recipe.id" :label="recipe.Dish.name" :recipeIngredients="recipe.recipeIngredients.map(ri => ({
             id: ri.id,
             ingredients: ri.ingredients,
             quantity: ri.ingredients.Quantity
-          })) || []" @click="showDetails(recipe)" />
+          }))" @click="showDetails(recipe)" />
+
         </section>
 
         <!-- No Dishes Message -->
