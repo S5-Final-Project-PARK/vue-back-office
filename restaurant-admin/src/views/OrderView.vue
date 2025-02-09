@@ -68,7 +68,6 @@ onMounted(async () => {
     console.log(fetchedOrders);
   } catch (error) {
     console.error("Error fetching recipes:", error);
-    orders.value = [];
   }
 });
 
