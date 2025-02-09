@@ -58,6 +58,19 @@ export async function getDishes() {
   }
 }
 
+export async function deleteDishes(id:number){
+  try {
+    console.log(id);
+    const response = await axios.delete(`${backEndLink}/dishes/delete/${id}`)
+
+    console.log('delete dishes successfully:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error delete dishes:', error)
+    throw error
+  }
+}
+
 export async function insertDishes(disheName: string, dishPrice: number) {
   await axios.post(backEndLink + '/dishes/create', {
     name: disheName,

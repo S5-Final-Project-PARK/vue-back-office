@@ -20,6 +20,7 @@ const props = defineProps<{
     }[];
 }>();
 
+console.log(props.id);
 const isDeleteWindowOpen = ref(false);
 const formattedPrice = computed(() => useFormatNumber(props.price));
 
@@ -89,7 +90,7 @@ const isOutOfStock = computed(() => {
                     </li>
                 </ul>
             </section>
-            <my-full-button label="Edit" @click="goToEdit" />
+            <!--<my-full-button label="Edit" @click="goToEdit" />-->
             <my-delete-button label="Delete" @click="openDelete" />
         </section>
     </section>

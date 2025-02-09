@@ -88,7 +88,7 @@ function closeDetails() {
         <!-- Details Section -->
         <section v-if="isDetailsSectionOpen" class="flex flex-row space-x-4">
           <my-dishes-detail-section v-if="dishDetails" :label="dishDetails.Dish.name" :price="dishDetails.Dish.price"
-            :id="dishDetails.id" :recipeIngredients="dishDetails?.recipeIngredients?.map(ri => ({
+            :id="dishDetails.Dish.id" :recipeIngredients="dishDetails?.recipeIngredients?.map(ri => ({
               id: ri.id,
               ingredients: ri.ingredients,
               quantity: ri.ingredients.Quantity
