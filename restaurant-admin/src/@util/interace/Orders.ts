@@ -1,5 +1,3 @@
-import type { Ingredient } from "./Ingredient";
-
 export interface Order {
     Date: string;
     Dish: {
