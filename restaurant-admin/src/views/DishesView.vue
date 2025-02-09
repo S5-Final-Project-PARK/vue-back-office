@@ -103,7 +103,7 @@ function closeDetails() {
         </section>
 
         <!-- Dish List -->
-        <section v-if="hasLoaded" id="list" class="grid grid-cols-4 grid-rows-2 gap-2">
+        <section v-if="hasLoaded" id="list" class="grid sm:grid-cols-4 grid-rows-2 gap-2 grid-cols-1">
           <my-dishes-card v-for="recipe in recipes" :key="recipe.id" :label="recipe.Dish.name" :recipeIngredients="recipe.recipeIngredients.map(ri => ({
             id: ri.id,
             ingredients: ri.ingredients,
@@ -111,7 +111,7 @@ function closeDetails() {
           }))" @click="showDetails(recipe)" />
 
         </section>
-        <p v-if="!recipes.length && hasLoaded" class="text-center text-gray-500">No dishes available.</p>
+        <!--<p v-if="!recipes.length && hasLoaded" class="text-center text-gray-500">No dishes available.</p>-->
         <section v-else class="flex flex-col items-center justify-center">
           <div class="text-6xl mt-16">
             <i class="pi pi-spin pi-spinner"></i>
