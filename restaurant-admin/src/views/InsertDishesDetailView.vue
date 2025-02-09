@@ -17,7 +17,7 @@ const isScreenLarge = ref(true);
 const hasLoaded = ref(false);
 
 const ingredients = ref<Ingredient[]>([]);
-const selectedDish = ref<Dish>();
+const selectedDish = ref<Dish | null>(null)
 
 // Store selected ingredients in a reactive object
 const selectedIngredients = reactive(new Map<number, { name: string; quantity: number }>());
@@ -83,7 +83,7 @@ async function handleSubmit() {
     }));
 
     try {
-        await insertRecipe(selectedDish.value?.id, finalIngredients.value);
+        await insertRecipe(selectedDish.value?.id ?? 0, finalIngredients.value);
         //console.log(selectedDish.value?.id);
         console.log("Recipe created successfully!");
         router.push('/dishes'); // Redirect after success
