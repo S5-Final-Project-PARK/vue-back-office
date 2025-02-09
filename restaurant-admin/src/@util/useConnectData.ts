@@ -53,7 +53,7 @@ export async function getDishes() {
     const response = await axios.get(backEndLink + '/dishes/list')
     return response.data // ✅ Return correct array type
   } catch (error) {
-    console.error('Error fetching ingredients:', error)
+    console.error('Error fetching dishes:', error)
     return [] // ✅ Ensure function always returns an array
   }
 }
@@ -63,4 +63,15 @@ export async function insertDishes(disheName: string, dishPrice: number) {
     name: disheName,
     price: dishPrice,
   })
+}
+
+
+export async function getOrders(){
+  try {
+    const response = await axios.get(backEndLink + '/orders/list')
+    return response.data // ✅ Return correct array type
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+    return [] // ✅ Ensure function always returns an array
+  }
 }
