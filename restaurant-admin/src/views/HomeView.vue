@@ -33,7 +33,7 @@ onMounted(()=>{
     <my-home-header />
     <main>
       <my-download-section />
-      <my-play-section/>
+      <!--<my-play-section/>-->
     </main>
     <my-footer />
   </body>

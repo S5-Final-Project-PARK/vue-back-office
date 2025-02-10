@@ -22,7 +22,6 @@ const downloadPDF = async () => {
         <h1 class="font-nacelle font-bold text-4xl">On The Ready</h1>
         <section class="flex lg:flex-row lg:space-x-4 flex-col space-y-4">
           <my-download-button  @click="downloadPDF" label="Download our guide!(Documentation)"/>
-          <my-download-button label="Download our app!"/>
         </section>
       </article>
 </template>
